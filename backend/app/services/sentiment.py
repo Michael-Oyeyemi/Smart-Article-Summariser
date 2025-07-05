@@ -16,7 +16,7 @@ TONE_PROTOTYPES = {
 
 classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
 
-def analyse_sentiment(text: str, threshold: float = 0.35) -> dict:
+def analyse_sentiment(text: str, threshold: float = 0.31) -> dict:
     emotions = ["grief", "respect", "joy", "anger", "hope", "love", "shock", "sadness", "happiness"]
     result = classifier(text, candidate_labels=emotions, multi_label=True)
     return {
