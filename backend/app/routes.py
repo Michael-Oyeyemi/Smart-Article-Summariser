@@ -23,6 +23,8 @@ def analyse_article(req: ArticleRequest):
     tags = extract_tags(text)
     overall_tone = classify_tone_tag(sentiment_data)
 
+    print("Response Sent")
+
     return ArticleResponse(
         summary = summary,
         sentiment = sentiment_data,
