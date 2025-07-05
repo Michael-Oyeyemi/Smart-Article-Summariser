@@ -18,7 +18,7 @@ def analyse_article(req: ArticleRequest):
         raise HTTPException(status_code=400, detail="Unable to extract usuable article text.")
     
     summary = summarise_text(text)
-    sentiment_data = analyse_sentiment(text)
+    sentiment_data = analyse_sentiment(summary)
     primary_emotion = max(sentiment_data, key=sentiment_data.get)
     tags = extract_tags(text)
     overall_tone = classify_tone_tag(sentiment_data)

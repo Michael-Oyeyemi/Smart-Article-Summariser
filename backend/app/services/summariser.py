@@ -33,5 +33,5 @@ def extract_best_sentences(text: str, top_k: int = 5) -> str:
 
 def summarise_text(text: str) -> str:
     extracted = extract_best_sentences(text)
-    summary = summariser(extracted, max_length = 200, min_length = 60, do_sample = False)
+    summary = summariser(extracted, min_length = 60, do_sample = False)
     return summary[0]["summary_text"]
