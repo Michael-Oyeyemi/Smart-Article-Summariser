@@ -1,0 +1,13 @@
+body {
+    font-family: sans-serif;
+    width: 300px;
+    padding: 10px;
+}
+
+.tag {
+    background: #eee;
+    padding: 3px 7px;
+    margin: 2px;
+    display: inline-block;
+    border-radius: 4px;
+}
