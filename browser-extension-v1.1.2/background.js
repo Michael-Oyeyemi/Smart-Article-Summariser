@@ -21,7 +21,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     
     console.log("Background: Starting analysis for:", url);
     
-    // Keep service worker alive during fetch
     keepServiceWorkerAlive();
 
     fetch("http://localhost:8000/analyse", {
