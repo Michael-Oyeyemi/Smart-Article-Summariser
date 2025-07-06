@@ -4,7 +4,7 @@ let keepAliveInterval;
 function keepServiceWorkerAlive() {
   keepAliveInterval = setInterval(() => {
     console.log("Background: Keeping service worker alive");
-  }, 20000); // Ping every 20 seconds
+  }, 20000);
 }
 
 function stopKeepAlive() {
@@ -40,28 +40,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       console.log("Background: Analysis complete for:", url);
       console.log("Background: Data received:", data);
       
-      // Stop keep-alive
       stopKeepAlive();
       
-      // IMPORTANT: Store the result in storage immediately
       const cacheKey = btoa(url);
       const pendingKey = cacheKey + "_pending";
       
       chrome.storage.local.set({ [cacheKey]: data }, () => {
         console.log("Background: Stored result in cache");
         
-        // Clear pending state
         chrome.storage.local.remove(pendingKey, () => {
           console.log("Background: Cleared pending state");
         });
         
-        // Send message to popup if it's listening
         chrome.runtime.sendMessage({
           type: "analysisComplete",
           url,
           data
         }).catch(err => {
-          // This error is expected if popup is closed - that's fine
           console.log("Background: No listeners for message (popup likely closed)");
         });
       });
@@ -71,15 +66,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     .catch(error => {
       console.error("Background: Error in fetch:", error);
       
-      // Stop keep-alive on error
       stopKeepAlive();
       
-      // Clear pending state on error
       const cacheKey = btoa(url);
       const pendingKey = cacheKey + "_pending";
       chrome.storage.local.remove(pendingKey);
       
-      // Send error message
       chrome.runtime.sendMessage({
         type: "analysisError",
         url,
@@ -91,6 +83,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({ status: "error", error: error.toString() });
     });
 
-    return true; // Keep message channel open for async response
+    return true;
   }
 });
